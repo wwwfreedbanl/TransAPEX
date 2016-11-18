@@ -27,7 +27,7 @@ prompt APPLICATION 101 - Trans APEX
 -- Application Export:
 --   Application:     101
 --   Name:            Trans APEX
---   Date and Time:   20:25 Tuesday March 22, 2016
+--   Date and Time:   10:38 Friday November 18, 2016
 --   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -37,7 +37,7 @@ prompt APPLICATION 101 - Trans APEX
 
 -- Application Statistics:
 --   Pages:                     25
---     Items:                   60
+--     Items:                   61
 --     Validations:              2
 --     Processes:               47
 --     Regions:                 55
@@ -129,7 +129,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_06=>'SS_FEEDBACK'
 ,p_substitution_value_06=>'Feedback'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20160322202459'
+,p_last_upd_yyyymmddhh24miss=>'20161118103226'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -15948,7 +15948,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20160303120616'
+,p_last_upd_yyyymmddhh24miss=>'20161118103226'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(42685908088569688)
@@ -15976,8 +15976,9 @@ wwv_flow_api.create_page_plug(
 'select P.ID,',
 '       P.APP_ID,',
 '       A.APPLICATION_NAME,',
-'       P.TRS_COMMENT',
-'  from T_TRS_PROJECT P JOIN APEX_APPLICATIONS A ON ( A.APPLICATION_ID = P.APP_ID )'))
+'       P.TRS_COMMENT,',
+'       A.WORKSPACE_DISPLAY_NAME',
+'from T_TRS_PROJECT P JOIN APEX_APPLICATIONS A ON ( A.APPLICATION_ID = P.APP_ID )'))
 ,p_plug_source_type=>'NATIVE_IR'
 ,p_plug_query_row_template=>1
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
@@ -16035,6 +16036,14 @@ wwv_flow_api.create_worksheet_column(
 ,p_column_type=>'STRING'
 ,p_heading_alignment=>'LEFT'
 );
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(241135432242194903)
+,p_db_column_name=>'WORKSPACE_DISPLAY_NAME'
+,p_display_order=>32
+,p_column_identifier=>'E'
+,p_column_label=>'Workspace'
+,p_column_type=>'STRING'
+);
 wwv_flow_api.create_worksheet_rpt(
  p_id=>wwv_flow_api.id(42688201782570712)
 ,p_application_user=>'APXWS_DEFAULT'
@@ -16043,7 +16052,7 @@ wwv_flow_api.create_worksheet_rpt(
 ,p_status=>'PUBLIC'
 ,p_is_default=>'Y'
 ,p_display_rows=>50
-,p_report_columns=>'ID:APP_ID:APPLICATION_NAME:TRS_COMMENT:'
+,p_report_columns=>'ID:WORKSPACE_DISPLAY_NAME:APP_ID:APPLICATION_NAME:TRS_COMMENT:'
 ,p_flashback_enabled=>'N'
 );
 wwv_flow_api.create_page_button(
@@ -16146,7 +16155,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20160303113443'
+,p_last_upd_yyyymmddhh24miss=>'20161118103032'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(42690074759607565)
@@ -16235,15 +16244,21 @@ wwv_flow_api.create_page_item(
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(42692944788607572)
 ,p_name=>'P11_APP_ID'
-,p_item_sequence=>20
+,p_item_sequence=>30
 ,p_item_plug_id=>wwv_flow_api.id(42690074759607565)
 ,p_use_cache_before_default=>'NO'
 ,p_prompt=>'Application'
 ,p_source=>'APP_ID'
 ,p_source_type=>'DB_COLUMN'
 ,p_display_as=>'NATIVE_SELECT_LIST'
-,p_lov=>'select APPLICATION_NAME||'' (''||APPLICATION_ID||'')'', APPLICATION_ID from APEX_APPLICATIONS order by APPLICATION_ID;'
+,p_lov=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+'select APPLICATION_NAME||'' (''||APPLICATION_ID||'')'', APPLICATION_ID ',
+'from APEX_APPLICATIONS ',
+'where WORKSPACE_ID = :P11_WORKSPACE_ID',
+'order by APPLICATION_ID '))
 ,p_lov_display_null=>'YES'
+,p_lov_cascade_parent_items=>'P11_WORKSPACE_ID'
+,p_ajax_optimize_refresh=>'Y'
 ,p_cHeight=>1
 ,p_field_template=>wwv_flow_api.id(42649133303049309)
 ,p_item_template_options=>'#DEFAULT#'
@@ -16254,7 +16269,7 @@ wwv_flow_api.create_page_item(
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(42693326524607573)
 ,p_name=>'P11_TRS_COMMENT'
-,p_item_sequence=>30
+,p_item_sequence=>40
 ,p_item_plug_id=>wwv_flow_api.id(42690074759607565)
 ,p_use_cache_before_default=>'NO'
 ,p_prompt=>'Project comment'
@@ -16270,6 +16285,23 @@ wwv_flow_api.create_page_item(
 ,p_attribute_02=>'N'
 ,p_attribute_03=>'N'
 ,p_attribute_04=>'BOTH'
+);
+wwv_flow_api.create_page_item(
+ p_id=>wwv_flow_api.id(241135390928194902)
+,p_name=>'P11_WORKSPACE_ID'
+,p_item_sequence=>20
+,p_item_plug_id=>wwv_flow_api.id(42690074759607565)
+,p_item_default=>'v(''WORKSPACE_ID'')'
+,p_item_default_type=>'PLSQL_EXPRESSION'
+,p_prompt=>'Workspace'
+,p_display_as=>'NATIVE_SELECT_LIST'
+,p_lov=>'select distinct WORKSPACE_DISPLAY_NAME, WORKSPACE_ID from APEX_APPLICATIONS order by WORKSPACE_DISPLAY_NAME;'
+,p_cHeight=>1
+,p_field_template=>wwv_flow_api.id(42649133303049309)
+,p_item_template_options=>'#DEFAULT#'
+,p_lov_display_extra=>'NO'
+,p_attribute_01=>'NONE'
+,p_attribute_02=>'N'
 );
 wwv_flow_api.create_page_da_event(
  p_id=>wwv_flow_api.id(42691039627607566)
@@ -21380,6 +21412,7 @@ wwv_flow_api.create_page_plug(
 'If you want to translate applications texts which are dynamic (so containing an APEX variable in the text) it''s probably wise to quote these variables since otherwise google sometimes messes up the variable reference in the translation.<br>',
 'So use <b>"&amp;P1_ITEM_NAME."</b><br>',
 'and not <b>&amp;P1_ITEM_NAME.</b><br>'))
+,p_plug_query_row_template=>1
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
@@ -21542,6 +21575,7 @@ wwv_flow_api.create_page(
 '}})();'))
 ,p_step_template=>wwv_flow_api.id(42614461153049294)
 ,p_page_template_options=>'#DEFAULT#'
+,p_dialog_chained=>'Y'
 ,p_overwrite_navigation_list=>'N'
 ,p_page_is_public_y_n=>'Y'
 ,p_cache_mode=>'NOCACHE'
