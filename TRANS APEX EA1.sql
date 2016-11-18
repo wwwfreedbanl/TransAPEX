@@ -27,7 +27,7 @@ prompt APPLICATION 101 - Trans APEX
 -- Application Export:
 --   Application:     101
 --   Name:            Trans APEX
---   Date and Time:   10:38 Friday November 18, 2016
+--   Date and Time:   11:47 Friday November 18, 2016
 --   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -129,7 +129,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_06=>'SS_FEEDBACK'
 ,p_substitution_value_06=>'Feedback'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20161118103226'
+,p_last_upd_yyyymmddhh24miss=>'20161118114653'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -9916,9 +9916,9 @@ end;
 prompt --application/shared_components/globalization/language
 begin
 wwv_flow_api.create_language_map(
- p_id=>wwv_flow_api.id(10533658685097391)
+ p_id=>wwv_flow_api.id(241144529673501638)
 ,p_translation_flow_id=>9001
-,p_translation_flow_language_cd=>'nl'
+,p_translation_flow_language_cd=>'sl'
 );
 end;
 /
@@ -15884,20 +15884,19 @@ begin
 wwv_flow_api.create_page(
  p_id=>1
 ,p_user_interface_id=>wwv_flow_api.id(42654829570049320)
-,p_name=>'Home'
+,p_name=>'Translation home'
 ,p_page_mode=>'NORMAL'
 ,p_step_title=>'Home'
 ,p_step_sub_title=>'Home'
 ,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
 ,p_first_item=>'NO_FIRST_ITEM'
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
 ,p_overwrite_navigation_list=>'N'
 ,p_page_is_public_y_n=>'N'
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20160224170342'
+,p_last_upd_yyyymmddhh24miss=>'20161118112307'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(42656633916049333)
@@ -16155,7 +16154,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20161118103032'
+,p_last_upd_yyyymmddhh24miss=>'20161118114653'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(42690074759607565)
@@ -16295,7 +16294,11 @@ wwv_flow_api.create_page_item(
 ,p_item_default_type=>'PLSQL_EXPRESSION'
 ,p_prompt=>'Workspace'
 ,p_display_as=>'NATIVE_SELECT_LIST'
-,p_lov=>'select distinct WORKSPACE_DISPLAY_NAME, WORKSPACE_ID from APEX_APPLICATIONS order by WORKSPACE_DISPLAY_NAME;'
+,p_lov=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+'select distinct WORKSPACE_DISPLAY_NAME, WORKSPACE_ID ',
+'from APEX_APPLICATIONS ',
+'where workspace_id > 100',
+'order by WORKSPACE_DISPLAY_NAME;'))
 ,p_cHeight=>1
 ,p_field_template=>wwv_flow_api.id(42649133303049309)
 ,p_item_template_options=>'#DEFAULT#'
