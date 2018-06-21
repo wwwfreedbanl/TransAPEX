@@ -27,7 +27,7 @@ prompt APPLICATION 101 - Trans APEX
 -- Application Export:
 --   Application:     101
 --   Name:            Trans APEX
---   Date and Time:   17:36 Tuesday June 19, 2018
+--   Date and Time:   15:29 Thursday June 21, 2018
 --   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -131,7 +131,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_06=>'SS_FEEDBACK'
 ,p_substitution_value_06=>'Feedback'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20180619173506'
+,p_last_upd_yyyymmddhh24miss=>'20180621152821'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -27786,7 +27786,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'ADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20160303100741'
+,p_last_upd_yyyymmddhh24miss=>'20180621152821'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(42726371734775040)
@@ -28034,7 +28034,7 @@ wwv_flow_api.create_page_process(
 '  TRANS_APEX.CREATE_NEW_APP_LANGUAGE ( LV_APP_ID, :P13_LANGUAGE_CODE, 1 );  -- Create and Seed',
 'end if;',
 '',
-'TRANS_APEX.SYNC_STRINGS_TO_LOCAL_REPO ( :P13_PROJECT_ID, :P13_LANGUAGE_CODE,   0 );  -- Create local repo records, no seed.',
+'TRANS_APEX.SYNC_ALL_TO_LOCAL_REPO ( :P13_PROJECT_ID, :P13_LANGUAGE_CODE,   0 );  -- Create local repo records, no seed.',
 '',
 '',
 '',
